@@ -6,16 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAllAccount(c *gin.Context) {
-	var users []model.User
+func DeleteAccount(c *gin.Context) {
+	seq := c.Param("seq")
 
 	db := utils.DbConnect()
 
-	res := db.Find(&users)
-	if res.Error != nil {
+	if res := db.Delete(&model.User{}, seq); res.Error != nil {
 		utils.Response(c, utils.INTERNAL_SERVER_ERROR, "Query Error.")
-		return
+		panic(res.Error)
 	}
 
-	utils.ResponseJSON(c, users)
+	utils.Response(c, utils.NO_CONTENT, "Ok.")
 }

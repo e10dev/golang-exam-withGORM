@@ -39,5 +39,5 @@ func DbInitTable() {
 	if res.Error != nil {
 		panic(res.Error)
 	}
-	model.Seq = res.RowsAffected
+	model.Seq = int(res.RowsAffected)
 }

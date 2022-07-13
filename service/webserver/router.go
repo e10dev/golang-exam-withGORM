@@ -18,9 +18,9 @@ func InitRouter() *gin.Engine {
 		b.GET("", account.GetAllAccount)
 		b.GET("/:seq", account.GetAccount)
 		b.POST("", account.NewAccount)
-		// b.PUT("/:seq", account.UpdateAccount)
-		// b.DELETE("/:seq", account.DeleteAccount)
-		// b.GET("/download", account.DownloadCSV)
+		b.PUT("/:seq", account.UpdateAccount)
+		b.DELETE("/:seq", account.DeleteAccount)
+		b.GET("/download", account.DownloadCSV)
 	}
 	return r
 }

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"e10dev.example/service/config"
 	"e10dev.example/service/model"
 	"e10dev.example/service/utils"
 	"github.com/gin-gonic/gin"
@@ -10,7 +9,7 @@ import (
 func Login(c *gin.Context) {
 	var user model.UserCompact
 	if err := c.BindJSON(&user); err != nil {
-		utils.Response(c, config.BAD_REQUEST, "User Info Bad Request.")
+		utils.Response(c, utils.BAD_REQUEST, "User Info Bad Request.")
 		panic(err)
 	}
 
@@ -21,17 +20,17 @@ func Login(c *gin.Context) {
 	db := utils.DbConnect()
 	res := db.Table("users").Where("id = ?", user.Id).Take(&result)
 	if res.Error != nil {
-		utils.Response(c, config.INTERNAL_SERVER_ERROR, "Query Error.")
+		utils.Response(c, utils.INTERNAL_SERVER_ERROR, "Query Error.")
 		return
 	}
 
 	if result.Id != "" {
 		if result.Pw == user.Pw {
-			utils.Response(c, config.OK, "Ok.")
+			utils.Response(c, utils.OK, "Ok.")
 			return
 		}
-		utils.Response(c, config.BAD_REQUEST, "Password is Wrong.")
+		utils.Response(c, utils.BAD_REQUEST, "Password is Wrong.")
 		return
 	}
-	utils.Response(c, config.BAD_REQUEST, "Cannot find User.")
+	utils.Response(c, utils.BAD_REQUEST, "Cannot find User.")
 }
